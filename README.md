@@ -150,9 +150,18 @@ exclude untracked files. Commit dependency metadata and the Nix hash together.
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` validates pull requests, `main`, and `v*` tags and retains
-candidate builds. Tag builds additionally verify SSH signatures and release
-versions using the `RELEASE_SIGNERS` repository variable.
+`.github/workflows/ci.yml` validates pull requests, `main`, and published `v*` tags
+and retains candidate builds. `.github/workflows/security.yml` audits all npm
+dependencies and runs CodeQL on JavaScript and TypeScript, including a weekly scan.
+High and critical dependency vulnerabilities or CodeQL findings block a release.
+
+To publish, open **Actions → Release → Run workflow**, select `main`, and choose
+`patch`, `minor`, or `major`. Leave `dry_run` disabled. The workflow runs both CI
+and security checks, selects the next unused semantic version, generates a changelog
+from commits, builds and attests the candidate, publishes an immutable release,
+and calls the Pages workflow. No manual tag, release notes, or second publication
+click is required. Enable `dry_run` to exercise checks and attestations without
+creating a tag, release, or deployment.
 
 `.github/workflows/pages.yml` publishes one combined artifact: the latest published
 stable release at `/` and the current validated `main` at `/preview/`. It runs after
@@ -160,18 +169,24 @@ successful main-branch CI, on stable release publication, or on manual dispatch.
 It verifies the release before building its exact commit, reruns validation on
 the main source, records both commits in `/build-info.json`, and retains a combined
 archive with its SHA-256 checksum. A first stable release is required before any
-deployment. Publishing a release and marking it latest is the production approval.
+deployment. Starting **Release** with `dry_run` disabled is production approval.
 
-Only the deployment job receives Pages and OIDC write permissions. Deployment is
+Only the deployment job receives Pages write permission; the release publication
+job receives content and attestation write permissions and an OIDC identity. Deployment is
 serialized, stale main CI completions are skipped, and PR artifacts are never
 consumed by the publishing workflow. Actions are pinned to commit IDs and checkout
-credentials are not persisted. No workflow pushes Git commits or creates tags.
+credentials are not persisted. Source commits remain TPM-signed; the release
+workflow creates annotated tags and GitHub attestations without making Git commits.
+Deployed versions are recorded in Git tags and `build-info.json`, independently of
+the private npm package's baseline version.
 
 Run `just check-ci` to validate workflow syntax and embedded shell commands with
 actionlint. A hosted CI run requires pushing the repository to GitHub; validation
-can run locally without a remote. For local release verification, provide a trusted
-allowed-signers entry in `RELEASE_SIGNERS` and run
-`node scripts/verify-release.mjs v0.1.0` after fetching `origin/main` and tags.
+can run locally without a remote. For release verification, authenticate `gh`,
+fetch `origin/main` and tags, and run `node scripts/resolve-release.mjs vX.Y.Z`.
+The immutable release and its metadata must verify against the exact repository,
+release workflow, main ref, and source commit. The bootstrap release `v0.1.0` alone
+retains its pinned commit and TPM verification through `RELEASE_SIGNERS`.
 
 ## VS Code workspace
 

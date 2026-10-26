@@ -64,9 +64,18 @@ centralized here. Read this file before editing and inspect the working tree fir
   `https://ajolis.de/`; the shared public preview uses `/preview/` on the same domain.
 - Reserve `/preview/` for deployment output. Keep links and assets base-aware and
   preview pages marked `noindex, nofollow`. The preview is not an access boundary.
-- Production is selected by the latest published stable GitHub release. Release
-  tags must be SSH-signed, annotated `vX.Y.Z` tags whose versions match both npm
-  manifests and whose commits belong to `main`. Never move an existing release tag.
+- Production is selected by the latest published immutable stable GitHub release.
+  The manually dispatched Release workflow creates annotated `vX.Y.Z` tags and
+  verifies quality, dependency security, and CodeQL before publishing. Automated
+  release tags use GitHub workflow attestations instead of laptop TPM signatures.
+  Source commits still require the authorized TPM key. Never move a release tag.
+- Verify release attestations against this repository, `.github/workflows/release.yml`,
+  `refs/heads/main`, and the exact source commit. Preserve the narrowly pinned TPM
+  verification path for the existing `v0.1.0` bootstrap release only. Never silently
+  accept missing provenance or expand that exception to other releases.
+- Release versions are maintained by Git tags and attested `release.json` metadata.
+  The private npm manifest version is a source-package baseline, not the deployed
+  site version. Automated releases must not create unsigned version-bump commits.
 - Preserve separate release and main builds when assembling the single Pages
   artifact. Never substitute unreleased main application output for production.
 - Follow `docs/github-pages.md` for repository setup, release trust, publishing,
