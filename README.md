@@ -216,5 +216,12 @@ automatic commits are disabled so commits can be reviewed and signed explicitly.
 Tools that do not discover repository instructions must be given `AGENTS.md`
 explicitly. The entry points reference the same policy instead of duplicating it.
 
-The package is private and marked `UNLICENSED`; no distribution license is granted
-by this repository metadata.
+## License
+
+Project source is available under the [BSD Zero Clause License](LICENSE)
+(`0BSD`). It permits use, copying, modification, and redistribution for any purpose,
+with or without fee, without an attribution or license-retention requirement.
+The software is provided as is, with the warranty and liability disclaimer in
+the license, subject to applicable law. Third-party dependencies retain their
+respective licenses. The npm package remains private to prevent accidental registry
+publication; this does not restrict the permissions granted by the license.

@@ -74,7 +74,7 @@
                   ./scripts
                 ];
               };
-              npmDepsHash = "sha256-RxtxBtb7N/jIBxe7vDlEbKAQ7lw/wSZ6j/iUNX73tqQ=";
+              npmDepsHash = "sha256-QkRMqecxjmSk0L6qwiDr/Av+9Sfgn7SY5so35FDQYnA=";
               ASTRO_TELEMETRY_DISABLED = "1";
               DEPLOY_TARGET = target;
               nativeBuildInputs = [

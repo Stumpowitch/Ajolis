@@ -58,8 +58,9 @@ Create an empty repository at <https://github.com/new>:
 
 Set the About website to `https://ajolis.de` and use topics such as `astro`,
 `typescript`, `nix`, `github-pages`, and `static-site`. The repository does not need
-to be named `Stumpowitch.github.io`. Public source visibility does not grant a
-distribution license; the package remains `UNLICENSED`.
+to be named `Stumpowitch.github.io`. Project source is distributed under the
+[BSD Zero Clause License](../LICENSE) (`0BSD`); third-party dependencies retain
+their respective licenses.
 
 ## 2. Configure identity and release trust
 
