@@ -1,149 +1,611 @@
 ---
 import SiteHeader from '@/components/SiteHeader.astro';
+import Spark from '@/components/Spark.astro';
+import ProductPortrait from '@/components/ProductPortrait.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout
-  title="Ajolis — A new beginning"
-  description="Welcome to Ajolis. A space for new ideas, taking shape one step at a time."
+  title="Ajolis — Hier entsteht etwas Großes."
+  description="Ein Anfang. Viele Möglichkeiten. Ajolis nimmt Form an. Ein erster Blick auf das, was kommt."
 >
   <SiteHeader />
-  <main id="main-content" class="wrapper">
-    <section class="hero" aria-labelledby="hero-title">
-      <p class="eyebrow">A new beginning</p>
-      <h1 id="hero-title">
-        Space for
-        <br />
-        something <em>new.</em>
-      </h1>
-      <p class="intro">Every idea starts somewhere. This one starts here.</p>
-      <a class="button" href="#about">
-        Meet Ajolis <span aria-hidden="true">↗</span>
-      </a>
-      <div class="orbit" aria-hidden="true">
-        <span></span>
+  <main id="main-content">
+    <section class="hero wrapper" aria-labelledby="hero-title">
+      <div class="hero-top">
+        <p class="eyebrow">
+          <span class="status-dot"></span> Etwas Neues nimmt Form an
+        </p>
+        <span class="edition">KAPITEL 01 / DER ANFANG</span>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-title">
+            Hier entsteht
+            <br />
+            etwas <em>Großes.</em>
+          </h1>
+          <p class="intro">
+            Noch nicht alles sichtbar.
+            <br />
+            Aber schon voller Möglichkeiten.
+          </p>
+          <a class="button" href="#produkt">
+            Unser Produkt{' '}
+            <span class="button-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit">
+            <div class="inner-orbit"></div>
+            <Spark class="hero-spark" />
+            <span class="orbit-dot"></span>
+          </div>
+          <span class="art-note">
+            EINE IDEE.
+            <br />
+            KEIN STILLSTAND.
+          </span>
+          <span class="art-cross">+</span>
+        </div>
+      </div>
+      <div class="hero-bottom">
+        <span>Weniger verraten. Mehr vorhaben.</span>
+        <a href="#idee">
+          Weiter entdecken <span aria-hidden="true">↓</span>
+        </a>
       </div>
     </section>
-    <section id="about" class="about" aria-labelledby="about-title">
-      <p class="eyebrow">01 / About</p>
-      <div>
-        <h2 id="about-title">
-          Small beginnings.
+
+    <section
+      class="idea wrapper section-grid"
+      id="idee"
+      aria-labelledby="idea-title"
+    >
+      <p class="eyebrow" data-reveal>
+        01 / Die Idee
+      </p>
+      <div data-reveal>
+        <h2 id="idea-title">
+          Es beginnt mit
           <br />
-          Room to grow.
+          einem <em>Was wäre, wenn.</em>
         </h2>
+        <div class="idea-bottom">
+          <Spark class="small-spark" />
+          <p>
+            Ein Gedanke, der bleibt.
+            <br />
+            Ein Anfang, der mehr sein will.
+            <br />
+            Und viel Platz für das, was kommt.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="product wrapper"
+      id="produkt"
+      aria-labelledby="product-title"
+    >
+      <div class="section-heading" data-reveal>
+        <div>
+          <p class="eyebrow">02 / Unser Produkt</p>
+          <h2 id="product-title">
+            Ein erster Blick.
+            <br />
+            <em>Der Rest kommt.</em>
+          </h2>
+        </div>
         <p>
-          Ajolis is taking shape. This is the first page of what comes next.
+          Noch keine großen Worte.
+          <br />
+          Erst einmal dieses Bild.
         </p>
+      </div>
+      <ProductPortrait />
+      <div class="under-photo">
+        <span>EIN KLEINER VORGESCHMACK.</span>
+        <span>VIEL RAUM FÜR NEUGIER.</span>
+      </div>
+    </section>
+
+    <section
+      class="outlook wrapper section-grid"
+      aria-labelledby="outlook-title"
+    >
+      <div data-reveal>
+        <p class="eyebrow">03 / Was jetzt?</p>
+        <h2 id="outlook-title">
+          Alles zu
+          <br />
+          seiner <em>Zeit.</em>
+        </h2>
+      </div>
+      <div class="notes" data-reveal>
+        <div class="note">
+          <span class="note-number">01</span>
+          <div>
+            <h3>Gedacht.</h3>
+            <p>Aus einem kleinen Gedanken wird langsam mehr.</p>
+          </div>
+          <span aria-hidden="true">↗</span>
+        </div>
+        <div class="note">
+          <span class="note-number">02</span>
+          <div>
+            <h3>In Bewegung.</h3>
+            <p>Es nimmt Form an. Schritt für Schritt.</p>
+          </div>
+          <span aria-hidden="true">↗</span>
+        </div>
+        <div class="note">
+          <span class="note-number">03</span>
+          <div>
+            <h3>Noch offen.</h3>
+            <p>Die schönsten Dinge brauchen etwas Raum.</p>
+          </div>
+          <span aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wrapper closing-inner" data-reveal>
+        <p class="eyebrow">Das ist erst der Anfang.</p>
+        <h2 id="closing-title">
+          Bleib <em>neugierig.</em>
+        </h2>
+        <div class="closing-bottom">
+          <p>Das nächste Kapitel kommt.</p>
+          <a href="#top" aria-label="Zurück nach oben">
+            <Spark class="closing-spark" />
+          </a>
+        </div>
       </div>
     </section>
   </main>
   <footer class="wrapper site-footer">
-    <span>Ajolis</span>
-    <a href="#top">
-      Back to top <span aria-hidden="true">↑</span>
+    <a class="footer-wordmark" href={base}>
+      ajolis.
     </a>
+    <span>Eine Idee nimmt Form an.</span>
+    <a href="#top">Nach oben ↑</a>
   </footer>
 </BaseLayout>
 
+<script>
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!motion.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.08 },
+    );
+    document
+      .querySelectorAll<HTMLElement>('[data-reveal]')
+      .forEach((element) => {
+        if (element.getBoundingClientRect().top > window.innerHeight) {
+          element.classList.add('reveal-ready');
+          observer.observe(element);
+        }
+      });
+    motion.addEventListener('change', () => {
+      if (motion.matches) {
+        observer.disconnect();
+        document
+          .querySelectorAll('.reveal-ready')
+          .forEach((element) => element.classList.add('is-visible'));
+      }
+    });
+  }
+</script>
+
 <style>
   .hero {
-    position: relative;
-    padding-block: clamp(4rem, 10vw, 8rem);
+    padding-top: 2.5rem;
   }
-
+  .hero-top,
+  .hero-bottom,
+  .section-heading,
+  .under-photo,
+  .closing-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .hero-top {
+    color: var(--muted);
+  }
+  .hero-top .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-ink);
+  }
+  .edition {
+    font-size: 0.59rem;
+    letter-spacing: 0.12em;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 5.5rem 6rem;
+  }
   h1 {
     position: relative;
     z-index: 1;
-    max-width: 13ch;
-    margin-block: 1.5rem;
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 550;
-    line-height: 1.04;
+    font-size: clamp(3.5rem, 7.8vw, 7.7rem);
+    line-height: 0.99;
+    letter-spacing: -0.075em;
+  }
+  em {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 400;
     letter-spacing: -0.065em;
   }
-
-  h1 em {
-    color: var(--accent);
-    font-family: Georgia, serif;
-    font-weight: 400;
-  }
-
   .intro {
-    max-width: 32ch;
-    margin-bottom: 2rem;
+    margin-block: 2rem 2.25rem;
     color: var(--muted);
-    font-size: 1.15rem;
+    font-size: 1rem;
+    line-height: 1.7;
   }
-
-  .orbit {
-    position: absolute;
-    top: 24%;
-    right: 2%;
+  .hero-art {
+    position: relative;
+    padding: 1.5rem;
+    align-self: stretch;
     display: grid;
-    width: 17rem;
-    aspect-ratio: 1;
+    align-items: center;
+  }
+  .orbit {
+    position: relative;
+    display: grid;
     place-items: center;
+    width: 100%;
+    aspect-ratio: 1;
     border: 1px solid var(--border);
     border-radius: 50%;
   }
-
-  .orbit::before {
+  .inner-orbit {
     position: absolute;
-    width: 72%;
+    width: 78%;
     aspect-ratio: 1;
     border: 1px solid var(--border);
     border-radius: 50%;
-    content: '';
   }
-
-  .orbit span {
-    width: 45%;
-    aspect-ratio: 1;
+  .orbit :global(.hero-spark) {
+    position: relative;
+    width: 72%;
+    color: var(--accent);
+    transform: rotate(-12deg);
+    filter: drop-shadow(0 12px 18px #00000008);
+  }
+  .orbit-dot {
+    position: absolute;
+    top: 14%;
+    right: 14%;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--ink);
   }
-
-  .about {
+  .art-note {
+    position: absolute;
+    bottom: -0.5rem;
+    right: 1.5rem;
+    font-size: 0.57rem;
+    letter-spacing: 0.13em;
+    line-height: 1.8;
+  }
+  .art-cross {
+    position: absolute;
+    top: 0;
+    left: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+  .hero-bottom {
+    border-top: 1px solid var(--border);
+    padding-block: 1.25rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .hero-bottom a {
+    text-decoration: none;
+  }
+  .hero-bottom a span {
+    margin-left: 1.5rem;
+  }
+  .section-grid {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    padding-block: 3.5rem 5rem;
-    border-top: 1px solid var(--border);
+    gap: 3rem;
   }
-
+  .idea {
+    padding-block: 8rem 9rem;
+  }
+  .idea > .eyebrow {
+    padding-top: 0.8rem;
+  }
   h2 {
-    margin-top: 0;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 550;
-    line-height: 1.15;
-    letter-spacing: -0.04em;
+    font-size: clamp(2.5rem, 4.5vw, 4.7rem);
+    line-height: 1.08;
+    letter-spacing: -0.055em;
   }
-
-  .about div p {
-    max-width: 38ch;
+  .idea-bottom {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 2.5rem;
+  }
+  .idea-bottom :global(.small-spark) {
+    width: 42px;
+    color: var(--accent-ink);
+  }
+  .idea-bottom p,
+  .section-heading > p {
+    font-size: 0.9rem;
     color: var(--muted);
   }
-
+  .product {
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .section-heading {
+    align-items: end;
+    margin-bottom: 3rem;
+  }
+  .section-heading h2 {
+    margin-top: 2rem;
+  }
+  .section-heading > p {
+    padding-bottom: 0.3rem;
+  }
+  .under-photo {
+    padding-top: 1.25rem;
+    font-size: 0.57rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .outlook {
+    grid-template-columns: 1fr 1.4fr;
+    padding-block: 9rem;
+  }
+  .outlook h2 {
+    margin-top: 2rem;
+  }
+  .note {
+    display: grid;
+    grid-template-columns: 2rem 1fr 1rem;
+    gap: 1.5rem;
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--border);
+  }
+  .note:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  .note-number {
+    padding-top: 0.4rem;
+    color: var(--muted);
+    font-size: 0.63rem;
+  }
+  .note h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.5rem;
+    letter-spacing: -0.04em;
+  }
+  .note p {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+  .note > span:last-child {
+    padding-top: 0.25rem;
+  }
+  .closing {
+    padding-block: 4rem;
+    background: var(--accent);
+    color: #252620;
+  }
+  .closing h2 {
+    margin-block: 3.5rem 2.5rem;
+    font-size: clamp(3rem, 8.7vw, 8rem);
+    letter-spacing: -0.065em;
+  }
+  .closing-bottom {
+    font-size: 0.85rem;
+  }
+  .closing-bottom a {
+    display: block;
+    padding: 0.7rem;
+    margin-right: -0.7rem;
+    transition: transform 0.4s;
+  }
+  .closing-bottom a:hover {
+    transform: rotate(45deg);
+  }
+  .closing-bottom :global(.closing-spark) {
+    width: 60px;
+  }
   .site-footer {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
-    padding-block: 1.5rem;
-    border-top: 1px solid var(--border);
+    align-items: center;
+    gap: 2rem;
+    padding-block: 2rem;
+    font-size: 0.7rem;
     color: var(--muted);
-    font-size: 0.875rem;
   }
-
-  @media (max-width: 56rem) {
-    .orbit {
-      display: none;
+  .site-footer a {
+    text-decoration: none;
+  }
+  .footer-wordmark {
+    color: var(--ink);
+    font-size: 2rem;
+    font-weight: 750;
+    letter-spacing: -0.09em;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-copy {
+      animation: arrive 0.9s both;
+    }
+    .orbit :global(.hero-spark) {
+      animation: unfurl 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    @keyframes arrive {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes unfurl {
+      from {
+        opacity: 0;
+        transform: rotate(-55deg) scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: rotate(-12deg) scale(1);
+      }
     }
   }
-
-  @media (max-width: 36rem) {
-    .about {
+  @media (max-width: 60rem) {
+    .hero-grid {
+      grid-template-columns: 1.8fr 1fr;
+      padding-block: 4.5rem;
+    }
+    .hero-art {
+      padding: 0;
+    }
+    .art-note {
+      right: 0;
+    }
+    .section-grid {
+      gap: 2rem;
+    }
+  }
+  @media (max-width: 40rem) {
+    .hero {
+      padding-top: 1.5rem;
+    }
+    .edition {
+      display: none;
+    }
+    .hero-top .eyebrow {
+      font-size: 0.59rem;
+    }
+    .hero-grid {
       grid-template-columns: 1fr;
+      padding-block: 3.5rem 2.5rem;
+      gap: 2.5rem;
+    }
+    h1 {
+      font-size: clamp(3.1rem, 12vw, 4.8rem);
+    }
+    .intro {
+      font-size: 0.9rem;
+      margin-block: 1.5rem 1.75rem;
+    }
+    .hero-art {
+      width: 44%;
+      margin-left: auto;
+      margin-top: -2rem;
+    }
+    .art-note {
+      left: auto;
+      right: calc(100% + 2rem);
+      bottom: 0.5rem;
+      width: 10rem;
+      text-align: right;
+    }
+    .art-cross {
+      display: none;
+    }
+    .hero-bottom {
+      align-items: start;
+      gap: 1rem;
+      font-size: 0.62rem;
+    }
+    .hero-bottom > span {
+      max-width: 17ch;
+    }
+    .hero-bottom a span {
+      margin-left: 0.4rem;
+    }
+    .section-grid {
+      grid-template-columns: 1fr;
+    }
+    .idea {
+      padding-block: 4.5rem 5rem;
+    }
+    .idea-bottom {
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .section-heading {
+      display: block;
+      margin-bottom: 2rem;
+    }
+    .section-heading h2 {
+      margin-top: 1.5rem;
+    }
+    .section-heading > p {
+      margin-top: 1.5rem;
+    }
+    .under-photo {
+      gap: 0.75rem;
+      font-size: 0.48rem;
+    }
+    .outlook {
+      padding-block: 5rem;
+      gap: 2.5rem;
+    }
+    .outlook h2 {
+      margin-top: 1.5rem;
+    }
+    .note {
+      gap: 0.75rem;
+    }
+    .note p {
+      font-size: 0.78rem;
+    }
+    .closing {
+      padding-block: 2.5rem;
+    }
+    .closing h2 {
+      margin-block: 2.5rem 2rem;
+      font-size: clamp(2.8rem, 10vw, 4rem);
+    }
+    .closing-bottom :global(.closing-spark) {
+      width: 44px;
+    }
+    .site-footer {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .site-footer > span {
+      display: none;
     }
   }
 </style>

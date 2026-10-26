@@ -1,0 +1,61 @@
+<script is:inline>
+  (() => {
+    const key = 'ajolis-theme';
+    const root = document.documentElement;
+    const system = window.matchMedia('(prefers-color-scheme: dark)');
+    const modes = ['system', 'light', 'dark'];
+    const labels = { system: 'Auto', light: 'Hell', dark: 'Dunkel' };
+    let preference = 'system';
+    try {
+      const saved = localStorage.getItem(key);
+      if (modes.includes(saved)) preference = saved;
+    } catch {
+      // Theme controls also work when browser storage is unavailable.
+    }
+    const apply = () => {
+      const dark =
+        preference === 'dark' || (preference === 'system' && system.matches);
+      root.dataset.theme = dark ? 'dark' : 'light';
+      root.dataset.themePreference = preference;
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', dark ? '#191a17' : '#f4f2eb');
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        const next = modes[(modes.indexOf(preference) + 1) % modes.length];
+        button.hidden = false;
+        button.setAttribute(
+          'aria-label',
+          `Farbschema: ${labels[preference]}. Zu ${labels[next]} wechseln`,
+        );
+        button.querySelector('[data-theme-label]').textContent =
+          labels[preference];
+      });
+    };
+    apply();
+    system.addEventListener('change', apply);
+    window.addEventListener('storage', (event) => {
+      if (event.key === key || event.key === null) {
+        preference = modes.includes(event.newValue) ? event.newValue : 'system';
+        apply();
+      }
+    });
+    document.addEventListener(
+      'DOMContentLoaded',
+      () => {
+        document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+          button.addEventListener('click', () => {
+            preference = modes[(modes.indexOf(preference) + 1) % modes.length];
+            try {
+              localStorage.setItem(key, preference);
+            } catch {
+              /* Storage is optional. */
+            }
+            apply();
+          });
+        });
+        apply();
+      },
+      { once: true },
+    );
+  })();
+</script>

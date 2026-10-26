@@ -6,16 +6,19 @@ const base = import.meta.env.BASE_URL;
 
 <BaseLayout
   noindex
-  title="Page not found — Ajolis"
-  description="The requested page could not be found."
+  title="Seite nicht gefunden — Ajolis"
+  description="Diese Seite konnte nicht gefunden werden. Zurück zur Startseite von Ajolis."
 >
   <SiteHeader />
   <main id="main-content" class="wrapper">
-    <p class="eyebrow">404 / Page not found</p>
-    <h1>This page is missing.</h1>
-    <p>The address may have changed, or the page may no longer exist.</p>
+    <p class="eyebrow">404 / Hier ist noch nichts</p>
+    <h1>Ein kleiner Umweg.</h1>
+    <p>Diese Seite gibt es nicht. Aber hier geht es weiter.</p>
     <a class="button" href={base}>
-      Back to home
+      Zur Startseite{' '}
+      <span class="button-arrow" aria-hidden="true">
+        ↗
+      </span>
     </a>
   </main>
 </BaseLayout>
@@ -25,6 +28,7 @@ const base = import.meta.env.BASE_URL;
     padding-block: 5rem;
   }
   h1 {
+    margin-block: 1rem;
     font-size: clamp(2rem, 6vw, 4rem);
     letter-spacing: -0.04em;
   }

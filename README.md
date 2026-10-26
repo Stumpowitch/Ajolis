@@ -6,9 +6,23 @@ Production and preview hosting are documented in the
 [GitHub Pages setup and release runbook](docs/github-pages.md), including all
 settings for `Stumpowitch/Ajolis` and `ajolis.de`.
 
-The initial site includes a responsive home page, a shared document layout, an
-accessible header, and a custom 404 page. It produces static HTML and CSS without
-a client-side framework, external fonts, or runtime services.
+The site is a German-language teaser with a responsive editorial layout, a product
+photograph, and a custom 404 page. It produces static HTML and CSS without a
+client-side framework, external fonts, or runtime services. Small client scripts
+provide theme selection, scroll reveals, and an accessible photograph dialog.
+
+The theme control cycles through system, light, and dark modes. It follows operating
+system changes in system mode and saves the choice in `localStorage` under
+`ajolis-theme`; blocked storage does not disable the control. The initial theme is
+applied in the document head. Without JavaScript, CSS follows the system theme,
+all content remains visible, and the photograph link opens the optimized image.
+Motion is finite and respects `prefers-reduced-motion`. The native image dialog
+supports Escape, a close button, focus containment, and focus restoration.
+
+`src/assets/first-look.jpg` contains the supplied original photograph. Astro generates
+responsive WebP variants for the page and a larger version for the dialog at build
+time. The original is not copied into the published site. Image descriptions,
+document language, and navigation labels match the German visitor-facing copy.
 
 Repository-wide development and commit rules are defined in [AGENTS.md](AGENTS.md).
 Documentation, source comments, and commit messages use technical English.
@@ -94,13 +108,15 @@ sessions; `just stop` handles those registered processes as well.
 JavaScript commands are also available as npm scripts. `npm run validate` checks
 web formatting, lint, types, and the production build. `just validate` additionally
 checks Nix, shell configuration, and CI workflows. `npm test` exercises release
-signature/version/ancestry checks and production/preview artifact isolation.
+signature/version/ancestry checks, production/preview artifact isolation, and theme
+preferences including system changes, cross-tab synchronization, and blocked storage.
 
 ## Project structure
 
 ```text
 public/                  Assets copied unchanged to the build output
 src/
+  assets/                Source images optimized by Astro at build time
   components/            Reusable Astro UI components
   layouts/               Shared HTML document structure and metadata
   pages/                 File-based routes, including 404.astro
@@ -114,8 +130,8 @@ tsconfig.json           Astro strictest TypeScript settings and @/ imports
 ```
 
 Keep route files focused on page composition. Components own local styles;
-`global.css` contains shared defaults and tokens. Add `src/assets` when assets need
-Astro processing and content collections when structured content is introduced.
+`global.css` contains shared defaults and tokens. Use `src/assets` for images that
+need Astro processing and content collections when structured content is introduced.
 Do not create empty architectural layers in advance.
 
 Production builds use `https://ajolis.de` for canonical URLs. `just build-preview`

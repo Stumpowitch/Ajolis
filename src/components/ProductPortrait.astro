@@ -1,0 +1,177 @@
+---
+import { Image, getImage } from 'astro:assets';
+import firstLook from '@/assets/first-look.jpg';
+const full = await getImage({
+  src: firstLook,
+  width: 2400,
+  format: 'webp',
+  quality: 85,
+});
+---
+
+<figure class="portrait" data-reveal>
+  <div class="frame-label">
+    <span>AJOLIS / ERSTER EINBLICK</span>
+    <span>001</span>
+  </div>
+  <a
+    class="photo-link"
+    href={full.src}
+    data-photo-open
+    aria-label="Foto vergrößern: gelber Van in einer alten Backsteinhalle"
+  >
+    <Image
+      src={firstLook}
+      alt="Ein gelber Van mit schwarzen Streifen auf der Motorhaube steht in einer alten Backsteinhalle mit Graffiti."
+      widths={[480, 800, 1200, 1600, 2000]}
+      sizes="(max-width: 768px) 90vw, 85vw"
+      width={1600}
+      format="webp"
+      quality={82}
+      loading="lazy"
+    />
+    <span class="expand" aria-hidden="true">
+      ↗
+    </span>
+  </a>
+  <figcaption>
+    <span>Manches beginnt mit einem ersten Blick.</span>
+    <span class="caption-index">Mehr folgt.</span>
+  </figcaption>
+</figure>
+<dialog aria-label="Unser Produkt — Fotoansicht" class="photo-dialog">
+  <form method="dialog">
+    <button class="close-photo" aria-label="Fotoansicht schließen">
+      Schließen <span aria-hidden="true">×</span>
+    </button>
+  </form>
+  <img
+    src={full.src}
+    width={full.attributes.width}
+    height={full.attributes.height}
+    loading="lazy"
+    alt="Vergrößerte Ansicht des gelben Vans in der Backsteinhalle."
+  />
+</dialog>
+
+<script>
+  const opener = document.querySelector<HTMLAnchorElement>('[data-photo-open]');
+  const dialog = document.querySelector<HTMLDialogElement>('.photo-dialog');
+  if (opener && dialog && typeof dialog.showModal === 'function') {
+    opener.setAttribute('aria-haspopup', 'dialog');
+    opener.addEventListener('click', (event) => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)
+        return;
+      event.preventDefault();
+      dialog.showModal();
+      document.documentElement.classList.add('photo-open');
+    });
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('photo-open');
+      opener.focus({ preventScroll: true });
+    });
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+</script>
+
+<style>
+  .portrait {
+    padding: clamp(1rem, 3vw, 2.5rem);
+    background: var(--frame);
+    color: #e9e9de;
+    border-radius: 1rem;
+    box-shadow: 0 24px 60px #00000012;
+  }
+  .frame-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    color: #c8c9be;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+  }
+  .photo-link {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 0.3rem;
+  }
+  .photo-link img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .photo-link:hover img {
+    transform: scale(1.025);
+  }
+  .expand {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #f4f2eb;
+    color: #252620;
+    font-size: 1.5rem;
+  }
+  figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    color: #c8c9be;
+    font-size: 0.75rem;
+  }
+  .photo-dialog {
+    max-width: 96vw;
+    max-height: 96dvh;
+    padding: 3.5rem 0.75rem 0.75rem;
+    border: 1px solid #45473e;
+    border-radius: 0.75rem;
+    color: #eeeee5;
+    background: #191a17;
+  }
+  .photo-dialog::backdrop {
+    background: #080a07ed;
+    backdrop-filter: blur(12px);
+  }
+  .photo-dialog img {
+    width: auto;
+    height: auto;
+    max-height: calc(96dvh - 5rem);
+    max-width: 90vw;
+    object-fit: contain;
+  }
+  .close-photo {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.4rem;
+    min-height: 44px;
+    padding: 0.5rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+  .close-photo span {
+    margin-left: 1rem;
+    font-size: 1.3rem;
+  }
+  :global(html.photo-open) {
+    overflow: hidden;
+  }
+  @media (max-width: 40rem) {
+    .caption-index {
+      display: none;
+    }
+    figcaption {
+      font-size: 0.68rem;
+      padding-top: 1rem;
+    }
+  }
+</style>

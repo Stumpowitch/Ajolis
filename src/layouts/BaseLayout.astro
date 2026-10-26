@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css';
+import ThemeScript from '@/components/ThemeScript.astro';
 
 interface Props {
   title: string;
@@ -14,20 +15,21 @@ const canonical = Astro.site && new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     {excludeFromSearch && <meta name="robots" content="noindex, nofollow" />}
     {!noindex && canonical && <link rel="canonical" href={canonical} />}
-    <meta name="theme-color" content="#f6f4ee" />
+    <meta name="theme-color" content="#f4f2eb" />
+    <ThemeScript />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <title>{title}</title>
   </head>
   <body id="top">
     <a class="skip-link" href="#main-content">
-      Skip to content
+      Zum Inhalt springen
     </a>
     <slot />
   </body>
