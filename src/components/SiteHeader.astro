@@ -1,9 +1,13 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
 <header class="site-header wrapper">
-  <a class="wordmark" href="/" aria-label="Ajolis home">
+  <a class="wordmark" href={base} aria-label="Ajolis home">
     ajolis<span aria-hidden="true">.</span>
   </a>
   <nav aria-label="Main navigation">
-    <a href="/#about">About</a>
+    <a href={`${base}#about`}>About</a>
   </nav>
 </header>
 

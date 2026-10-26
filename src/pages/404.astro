@@ -1,9 +1,11 @@
 ---
 import SiteHeader from '@/components/SiteHeader.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout
+  noindex
   title="Page not found — Ajolis"
   description="The requested page could not be found."
 >
@@ -12,7 +14,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     <p class="eyebrow">404 / Page not found</p>
     <h1>This page is missing.</h1>
     <p>The address may have changed, or the page may no longer exist.</p>
-    <a class="button" href="/">
+    <a class="button" href={base}>
       Back to home
     </a>
   </main>

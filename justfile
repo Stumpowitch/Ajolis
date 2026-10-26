@@ -16,6 +16,10 @@ dev:
 build:
     npm run build
 
+# Build the public staging site with its own canonical URL and noindex metadata.
+build-preview:
+    DEPLOY_TARGET=preview npm run build
+
 # Build and serve the production output locally.
 preview: build
     npm run preview

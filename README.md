@@ -114,10 +114,12 @@ Keep route files focused on page composition. Components own local styles;
 Astro processing and content collections when structured content is introduced.
 Do not create empty architectural layers in advance.
 
-The deployment domain is intentionally unset. Configure Astro's `site` value and
-canonical URLs when the production domain is known. A static host must serve
-`dist/` and use `404.html` for missing routes. Subdirectory hosting additionally
-requires a configured base path and corresponding asset/navigation handling.
+Production builds use `https://ajolis.de` for canonical URLs. `just build-preview`
+or `nix build .#preview` builds for `https://ajolis.de/preview/` and marks every page
+`noindex, nofollow`. The 404 page is always excluded from indexing. Preview pages
+are public; indexing directives are not access controls. Links and assets respect
+the build's base path. GitHub Pages uses the production `404.html` for missing
+routes, including missing preview routes.
 
 ## Dependency maintenance
 
