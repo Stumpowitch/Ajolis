@@ -11,6 +11,9 @@ export default defineConfig([
     '.astro/**',
     '.direnv/**',
     'result/**',
+    'result-*/**',
+    '_site/**',
+    '_artifacts/**',
     'coverage/**',
   ]),
   {

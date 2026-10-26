@@ -17,7 +17,8 @@
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm run format:check && npm run lint && npm run check && npm run build",
+    "test": "node --test scripts/*.test.mjs",
+    "validate": "npm run format:check && npm run lint && npm test && npm run check && npm run build",
     "astro": "astro"
   },
   "dependencies": {

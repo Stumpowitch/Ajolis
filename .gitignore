@@ -3,6 +3,8 @@ node_modules/
 dist/
 .astro/
 coverage/
+_site/
+_artifacts/
 *.tsbuildinfo
 
 # Local Nix and direnv state

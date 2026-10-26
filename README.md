@@ -89,8 +89,8 @@ sessions; `just stop` handles those registered processes as well.
 
 JavaScript commands are also available as npm scripts. `npm run validate` checks
 web formatting, lint, types, and the production build. `just validate` additionally
-checks Nix, shell configuration, and CI workflows. There is no behavioral test suite yet because
-the starter contains static content only; add tests when behavior is introduced.
+checks Nix, shell configuration, and CI workflows. `npm test` exercises release
+signature/version/ancestry checks and production/preview artifact isolation.
 
 ## Project structure
 
@@ -146,15 +146,28 @@ exclude untracked files. Commit dependency metadata and the Nix hash together.
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` runs on GitHub pull requests, pushes to `main`, and manual
-dispatch. It installs the pinned development environment, installs the npm lockfile,
-runs `just validate`, and runs `nix flake check` including the sandboxed site build.
-Actions are pinned to commit IDs, repository permissions are read-only, and checkout
-credentials are not persisted. The workflow does not deploy or push changes.
+`.github/workflows/ci.yml` validates pull requests, `main`, and `v*` tags and retains
+candidate builds. Tag builds additionally verify SSH signatures and release
+versions using the `RELEASE_SIGNERS` repository variable.
+
+`.github/workflows/pages.yml` publishes one combined artifact: the latest published
+stable release at `/` and the current validated `main` at `/preview/`. It runs after
+successful main-branch CI, on stable release publication, or on manual dispatch.
+It verifies the release before building its exact commit, reruns validation on
+the main source, records both commits in `/build-info.json`, and retains a combined
+archive with its SHA-256 checksum. A first stable release is required before any
+deployment. Publishing a release and marking it latest is the production approval.
+
+Only the deployment job receives Pages and OIDC write permissions. Deployment is
+serialized, stale main CI completions are skipped, and PR artifacts are never
+consumed by the publishing workflow. Actions are pinned to commit IDs and checkout
+credentials are not persisted. No workflow pushes Git commits or creates tags.
 
 Run `just check-ci` to validate workflow syntax and embedded shell commands with
-actionlint. A hosted CI run requires pushing the repository to GitHub; the same
-commands can be executed locally without a remote repository.
+actionlint. A hosted CI run requires pushing the repository to GitHub; validation
+can run locally without a remote. For local release verification, provide a trusted
+allowed-signers entry in `RELEASE_SIGNERS` and run
+`node scripts/verify-release.mjs v0.1.0` after fetching `origin/main` and tags.
 
 ## VS Code workspace
 

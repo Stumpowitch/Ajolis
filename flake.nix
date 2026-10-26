@@ -41,6 +41,7 @@
               curl
               prefetch-npm-deps
               actionlint
+              gh
             ];
 
             ASTRO_TELEMETRY_DISABLED = "1";
@@ -70,15 +71,21 @@
                   ./astro.config.mjs
                   ./tsconfig.json
                   ./eslint.config.mjs
+                  ./scripts
                 ];
               };
               npmDepsHash = "sha256-RxtxBtb7N/jIBxe7vDlEbKAQ7lw/wSZ6j/iUNX73tqQ=";
               ASTRO_TELEMETRY_DISABLED = "1";
               DEPLOY_TARGET = target;
+              nativeBuildInputs = [
+                pkgs.gitMinimal
+                pkgs.openssh
+              ];
               doCheck = true;
               checkPhase = ''
                 runHook preCheck
                 npm run lint
+                npm test
                 npm run check
                 runHook postCheck
               '';

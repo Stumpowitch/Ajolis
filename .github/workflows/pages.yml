@@ -1,0 +1,151 @@
+name: Publish Pages
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Production and preview share a single Pages deployment. Never deploy them in parallel.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Assemble released production and main preview
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft) ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: source
+    outputs:
+      publish: ${{ steps.release.outputs.publish }}
+    steps:
+      - name: Check out the trusted default branch
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          path: source
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Skip superseded main builds
+        id: source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          CHECKED_COMMIT: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if [[ "$EVENT_NAME" == workflow_run && "$(git rev-parse HEAD)" != "$CHECKED_COMMIT" ]]; then
+            echo 'publish=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'publish=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Install Nix
+        if: steps.source.outputs.publish == 'true'
+        uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Resolve and verify the latest published stable release
+        if: steps.source.outputs.publish == 'true'
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SIGNERS: ${{ vars.RELEASE_SIGNERS }}
+        run: |
+          if ! nix develop -c gh api "repos/$GITHUB_REPOSITORY/releases/latest" > "$RUNNER_TEMP/release-api.json"; then
+            if nix develop -c jq -e '.status == "404"' "$RUNNER_TEMP/release-api.json" > /dev/null; then
+              echo 'publish=false' >> "$GITHUB_OUTPUT"
+              echo 'No published stable release exists. Publish the first verified release to enable Pages.' >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            exit 1
+          fi
+          tag=$(nix develop -c jq -er 'select(.draft == false and .prerelease == false) | .tag_name' "$RUNNER_TEMP/release-api.json")
+          nix develop -c node scripts/verify-release.mjs "$tag" > "$RUNNER_TEMP/release.json"
+          {
+            echo "commit=$(nix develop -c jq -r .commit "$RUNNER_TEMP/release.json")"
+            echo "tag=$tag"
+            echo 'publish=true'
+          } >> "$GITHUB_OUTPUT"
+      - name: Check out the verified production commit
+        if: steps.release.outputs.publish == 'true'
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ steps.release.outputs.commit }}
+          path: production
+          persist-credentials: false
+      - name: Validate the current source and deployment tooling
+        if: steps.release.outputs.publish == 'true'
+        run: |
+          nix develop -c just install
+          nix develop -c just validate
+          nix flake check --print-build-logs
+      - name: Build both pinned source trees
+        if: steps.release.outputs.publish == 'true'
+        run: |
+          nix build ../production#default --out-link result-production
+          nix build .#preview --out-link result-preview
+      - name: Assemble the Pages artifact and record provenance
+        if: steps.release.outputs.publish == 'true'
+        run: |
+          nix develop -c node scripts/assemble-pages.mjs result-production result-preview _site "$RUNNER_TEMP/release.json" "$(git rev-parse HEAD)"
+          tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -C _site -czf "$RUNNER_TEMP/ajolis-pages.tar.gz" .
+          cd "$RUNNER_TEMP"
+          sha256sum ajolis-pages.tar.gz > SHA256SUMS
+      - name: Retain the combined build and checksum
+        if: steps.release.outputs.publish == 'true'
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: pages-${{ steps.release.outputs.tag }}-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/ajolis-pages.tar.gz
+            ${{ runner.temp }}/SHA256SUMS
+          retention-days: 90
+          if-no-files-found: error
+      - name: Upload the deployable Pages artifact
+        if: steps.release.outputs.publish == 'true'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: source/_site
+          retention-days: 7
+      - name: Summarize the selected versions
+        if: steps.release.outputs.publish == 'true'
+        run: |
+          {
+            echo '### Deployment provenance'
+            echo '```json'
+            cat _site/build-info.json
+            echo '```'
+            echo 'Production: https://ajolis.de/'
+            echo 'Preview: https://ajolis.de/preview/'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    name: Deploy the combined website
+    needs: build
+    if: needs.build.outputs.publish == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

@@ -3,6 +3,8 @@ dist/
 .astro/
 .direnv/
 coverage/
+_site/
+_artifacts/
 result
 result-*
 package-lock.json
