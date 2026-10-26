@@ -2,6 +2,10 @@
 
 A static Astro website with a Nix-based development environment.
 
+Production and preview hosting are documented in the
+[GitHub Pages setup and release runbook](docs/github-pages.md), including all
+settings for `Stumpowitch/Ajolis` and `ajolis.de`.
+
 The initial site includes a responsive home page, a shared document layout, an
 accessible header, and a custom 404 page. It produces static HTML and CSS without
 a client-side framework, external fonts, or runtime services.

@@ -57,3 +57,17 @@ centralized here. Read this file before editing and inspect the working tree fir
   State verification limits accurately; never claim checks that were not run.
 - Keep secrets, environment overrides, build outputs, dependency directories, and
   editor-local state untracked. Review new dependencies and lockfile changes.
+
+## Release and deployment conventions
+
+- Keep a single source repository, `Stumpowitch/Ajolis`. Production uses
+  `https://ajolis.de/`; the shared public preview uses `/preview/` on the same domain.
+- Reserve `/preview/` for deployment output. Keep links and assets base-aware and
+  preview pages marked `noindex, nofollow`. The preview is not an access boundary.
+- Production is selected by the latest published stable GitHub release. Release
+  tags must be SSH-signed, annotated `vX.Y.Z` tags whose versions match both npm
+  manifests and whose commits belong to `main`. Never move an existing release tag.
+- Preserve separate release and main builds when assembling the single Pages
+  artifact. Never substitute unreleased main application output for production.
+- Follow `docs/github-pages.md` for repository setup, release trust, publishing,
+  and rollback. Preparing a release does not authorize pushing or publishing it.
