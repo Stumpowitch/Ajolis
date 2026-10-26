@@ -82,7 +82,10 @@ Run these inside `nix develop`, a direnv-enabled terminal, or through
 
 Stop the development server before starting the production preview: both use the
 same fixed port, and an occupied port produces an error. The preview server is a
-local inspection tool, not a production hosting service.
+local inspection tool, not a production hosting service. Use `just stop` to stop
+servers registered for this checkout. In an interactive terminal, Ctrl+C also
+stops the foreground server. Astro may start a background server in automated
+sessions; `just stop` handles those registered processes as well.
 
 JavaScript commands are also available as npm scripts. `npm run validate` checks
 web formatting, lint, types, and the production build. `just validate` additionally
@@ -150,6 +153,40 @@ credentials are not persisted. The workflow does not deploy or push changes.
 Run `just check-ci` to validate workflow syntax and embedded shell commands with
 actionlint. A hosted CI run requires pushing the repository to GitHub; the same
 commands can be executed locally without a remote repository.
+
+## VS Code workspace
+
+Open `ajolis.code-workspace` and install the workspace's recommended extensions
+using **Extensions: Show Recommended Extensions**. Trust the checkout and allow
+`.envrc` when prompted. Launching VS Code from the development environment also
+ensures language servers inherit the pinned tools:
+
+```sh
+direnv exec . code ajolis.code-workspace
+```
+
+VS Code is a host application and is not installed by the flake. The recommendations
+include Astro, Prettier, ESLint, Nix IDE, direnv, EditorConfig, Just syntax support,
+ShellCheck, YAML support, and
+[Tasks (`actboy168.tasks`)](https://marketplace.visualstudio.com/items?itemName=actboy168.tasks).
+
+The Tasks extension displays **Install**, **Dev**, **Build**, **Preview**,
+**Validate**, **Format**, and **Stop** buttons in the status bar. Additional commands
+are available through **Tasks: Run Task**. Ctrl+Shift+B runs the default build task;
+**Tasks: Run Test Task** runs the full validation task. All tasks explicitly invoke
+`direnv exec` and the same Just recipes used in the terminal. The extension is a
+convenience; VS Code's built-in task runner works independently.
+
+Formatting on save uses the project's Prettier configuration for web sources and
+documentation and `nil` with `nixfmt` for Nix. Use **Format** for shell formatting.
+The workspace uses the local TypeScript SDK and enables signed Git commits.
+
+Optional F5 configurations launch Chrome or Edge after the development task is
+ready. They require the selected browser to be installed on the host. Stopping a
+browser debugging session leaves the development task available; use **Stop** or
+**Tasks: Terminate Task** to shut down the server. If a language server cannot find
+its executable, reload the window after direnv loads or launch VS Code with the
+command above.
 
 ## Contributor instruction discovery
 

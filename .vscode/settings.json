@@ -1,0 +1,43 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.associations": { ".envrc": "shellscript", "*.mdc": "markdown" },
+  "files.exclude": { "**/.astro": true, "**/.direnv": true },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.direnv/**": true,
+    "**/result/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.astro": true,
+    "**/.direnv": true,
+    "**/result": true,
+    "package-lock.json": true
+  },
+  "prettier.requireConfig": true,
+  "prettier.documentSelectors": ["**/*.astro"],
+  "eslint.validate": ["javascript", "typescript", "astro"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+  "nix.serverSettings": { "nil": { "formatting": { "command": ["nixfmt"] } } },
+  "[astro]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[nix]": { "editor.defaultFormatter": "jnoortheen.nix-ide" },
+  "[shellscript]": { "editor.formatOnSave": false },
+  "[just]": { "editor.formatOnSave": false },
+  "[markdown]": { "files.trimTrailingWhitespace": false },
+  "git.enableCommitSigning": true,
+  "npm.packageManager": "npm",
+  "npm.autoDetect": "off",
+  "task.autoDetect": "off",
+  "tasks.statusbar.default.hide": true,
+  "terminal.integrated.cwd": "${workspaceFolder}"
+}

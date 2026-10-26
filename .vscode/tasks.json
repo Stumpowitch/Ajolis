@@ -1,0 +1,389 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Ajolis: install",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "install"],
+      "detail": "Install locked dependencies",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": false,
+          "label": "$(cloud-download) Install",
+          "detail": "Install locked dependencies"
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: dev",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "dev"],
+      "detail": "Start the development server",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": false,
+          "label": "$(play) Dev",
+          "detail": "Start the development server"
+        }
+      },
+      "problemMatcher": {
+        "owner": "astro",
+        "pattern": {
+          "regexp": "^(.+):(\\d+):(\\d+): (error|warning) (.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "> astro (dev|preview)",
+          "endsPattern": "Local.*http://|[Ss]erver running at http://"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "isBackground": true
+    },
+    {
+      "label": "Ajolis: build",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "build"],
+      "detail": "Build the static website",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": false,
+          "label": "$(package) Build",
+          "detail": "Build the static website"
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Ajolis: preview",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "preview"],
+      "detail": "Build and preview production output",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": false,
+          "label": "$(open-preview) Preview",
+          "detail": "Build and preview production output"
+        }
+      },
+      "problemMatcher": {
+        "owner": "astro",
+        "pattern": {
+          "regexp": "^(.+):(\\d+):(\\d+): (error|warning) (.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "> astro (dev|preview)",
+          "endsPattern": "Local.*http://|[Ss]erver running at http://"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "isBackground": true
+    },
+    {
+      "label": "Ajolis: validate",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "validate"],
+      "detail": "Run all local quality gates",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": false,
+          "label": "$(check-all) Validate",
+          "detail": "Run all local quality gates"
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Ajolis: format",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "format"],
+      "detail": "Format source and configuration",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": false,
+          "label": "$(wand) Format",
+          "detail": "Format source and configuration"
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: stop",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "stop"],
+      "detail": "Stop the project development and preview servers",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": false,
+          "label": "$(debug-stop) Stop",
+          "detail": "Stop the project development and preview servers"
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: check",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "check"],
+      "detail": "Check Astro and TypeScript",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: lint",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "lint"],
+      "detail": "Run ESLint",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: format-check",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "format-check"],
+      "detail": "Check repository formatting",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: check-nix",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "check-nix"],
+      "detail": "Check Nix sources",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: check-shell",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "check-shell"],
+      "detail": "Check shell configuration",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: flake-check",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "flake-check"],
+      "detail": "Run the flake checks",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: build-nix",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "build-nix"],
+      "detail": "Build in the Nix sandbox",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "Ajolis: npm-deps-hash",
+      "type": "process",
+      "command": "direnv",
+      "args": ["exec", "${workspaceFolder}", "just", "npm-deps-hash"],
+      "detail": "Compute the Nix npm dependency hash",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "statusbar": {
+          "hide": true
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    }
+  ]
+}

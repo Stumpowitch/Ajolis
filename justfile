@@ -20,6 +20,11 @@ build:
 preview: build
     npm run preview
 
+# Stop development and preview servers registered for this project.
+stop:
+    npm run astro -- dev stop
+    npm run astro -- preview stop
+
 # Check Astro templates and TypeScript.
 check:
     npm run check
