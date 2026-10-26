@@ -62,21 +62,23 @@ Machine-specific Git settings and signing material are never versioned.
 Run these inside `nix develop`, a direnv-enabled terminal, or through
 `direnv exec . just <command>`.
 
-| Command             | Purpose                                                 |
-| ------------------- | ------------------------------------------------------- |
-| `just`              | List available commands                                 |
-| `just install`      | Install dependencies with `npm ci`                      |
-| `just dev`          | Start the development server at `http://127.0.0.1:4321` |
-| `just build`        | Generate static output in `dist/`                       |
-| `just preview`      | Build and serve production output on port 4321          |
-| `just check`        | Check Astro templates and strict TypeScript             |
-| `just lint`         | Run ESLint, including Astro accessibility rules         |
-| `just format`       | Format web sources, documentation, Nix, and `.envrc`    |
-| `just format-check` | Check formatting without writing files                  |
-| `just check-nix`    | Check Nix formatting and static analysis                |
-| `just check-shell`  | Check `.envrc` with ShellCheck and shfmt                |
-| `just validate`     | Run local quality gates and build the site              |
-| `just flake-check`  | Evaluate and check the flake on the current system      |
+| Command              | Purpose                                                    |
+| -------------------- | ---------------------------------------------------------- |
+| `just`               | List available commands                                    |
+| `just install`       | Install dependencies with `npm ci`                         |
+| `just dev`           | Start the development server at `http://127.0.0.1:4321`    |
+| `just build`         | Generate static output in `dist/`                          |
+| `just preview`       | Build and serve production output on port 4321             |
+| `just check`         | Check Astro templates and strict TypeScript                |
+| `just lint`          | Run ESLint, including Astro accessibility rules            |
+| `just format`        | Format web sources, documentation, Nix, and `.envrc`       |
+| `just format-check`  | Check formatting without writing files                     |
+| `just check-nix`     | Check Nix formatting and static analysis                   |
+| `just check-shell`   | Check `.envrc` with ShellCheck and shfmt                   |
+| `just validate`      | Run local quality gates and build the site                 |
+| `just flake-check`   | Evaluate and check the flake on the current system         |
+| `just build-nix`     | Build the static website in the Nix sandbox into `result/` |
+| `just npm-deps-hash` | Compute the Nix npm dependency hash from the lockfile      |
 
 Stop the development server before starting the production preview: both use the
 same fixed port, and an occupied port produces an error. The preview server is a
@@ -84,7 +86,7 @@ local inspection tool, not a production hosting service.
 
 JavaScript commands are also available as npm scripts. `npm run validate` checks
 web formatting, lint, types, and the production build. `just validate` additionally
-checks Nix and shell configuration. There is no behavioral test suite yet because
+checks Nix, shell configuration, and CI workflows. There is no behavioral test suite yet because
 the starter contains static content only; add tests when behavior is introduced.
 
 ## Project structure
@@ -125,6 +127,29 @@ Update the system toolchain with `nix flake update`, reload direnv, and validate
 result. Node.js is pinned by the flake; `package.json` constrains compatible Node.js
 and npm majors. The first environment load and dependency install require network
 access. There are no required application secrets or environment variables.
+
+`nix build` uses the same Node.js toolchain and npm lockfile in an isolated build.
+It also runs ESLint and Astro's type checks. The resulting `result/` symlink points
+to static files in the Nix store. `nix flake check` includes that build alongside
+Nix formatting and static analysis. It does not replace repository-wide formatting
+or shell checks; use `just validate` for those.
+
+After changing `package-lock.json`, run `just npm-deps-hash`, update `npmDepsHash` in
+`flake.nix` with the returned SHA-256 value, and verify `nix build`. Stage newly
+created source files before invoking flake commands because Git-backed flakes
+exclude untracked files. Commit dependency metadata and the Nix hash together.
+
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on GitHub pull requests, pushes to `main`, and manual
+dispatch. It installs the pinned development environment, installs the npm lockfile,
+runs `just validate`, and runs `nix flake check` including the sandboxed site build.
+Actions are pinned to commit IDs, repository permissions are read-only, and checkout
+credentials are not persisted. The workflow does not deploy or push changes.
+
+Run `just check-ci` to validate workflow syntax and embedded shell commands with
+actionlint. A hosted CI run requires pushing the repository to GitHub; the same
+commands can be executed locally without a remote repository.
 
 ## Contributor instruction discovery
 

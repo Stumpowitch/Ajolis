@@ -46,7 +46,7 @@ check-shell:
     shfmt -d -i 2 .envrc
 
 # Run all local quality gates and build the static site.
-validate: check-nix check-shell
+validate: check-nix check-shell check-ci
     npm run validate
 
 # Validate formatting and static analysis of Nix sources.
@@ -58,3 +58,15 @@ check-nix:
 # Evaluate the flake and run its checks on the current system.
 flake-check:
     nix flake check
+
+# Build the website in the Nix sandbox; result/ contains the static output.
+build-nix:
+    nix build
+
+# Compute the npm dependency hash after changing package-lock.json.
+npm-deps-hash:
+    prefetch-npm-deps package-lock.json
+
+# Validate GitHub Actions workflow syntax and embedded shell commands.
+check-ci:
+    actionlint
