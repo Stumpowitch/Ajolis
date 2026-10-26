@@ -1,0 +1,28 @@
+# Dependencies and generated output
+node_modules/
+dist/
+.astro/
+coverage/
+*.tsbuildinfo
+
+# Local Nix and direnv state
+.direnv/
+result
+result-*
+
+# Secrets and local environment overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.tpm
+
+# Local tools and operating system files
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.aider*
+!.aider.conf.yml
+.claude/settings.local.json

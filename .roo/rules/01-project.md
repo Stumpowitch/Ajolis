@@ -1,0 +1,5 @@
+# Repository instructions
+
+Read and follow the root [AGENTS.md](../../AGENTS.md) before making changes.
+Its signed incremental commit, English documentation, and attribution rules apply
+to all work in this repository.
