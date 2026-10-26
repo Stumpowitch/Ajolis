@@ -85,6 +85,9 @@ jobs:
       - name: Publish the immutable release
         if: ${{ !inputs.dry_run }}
         run: nix develop -c node scripts/publish-release.mjs "$RUNNER_TEMP/release"
+      - name: Check publication preconditions without writing
+        if: inputs.dry_run
+        run: nix develop -c node scripts/publish-release.mjs "$RUNNER_TEMP/release" --check
       - name: Summarize the release candidate
         run: |
           {

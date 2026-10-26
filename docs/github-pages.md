@@ -60,10 +60,13 @@ After successful checks, the workflow:
    grouped by Conventional Commit type, with commit and comparison links.
 3. Builds `ajolis.tar.gz`, records `release.json`, and computes `SHA256SUMS`.
 4. Creates and verifies GitHub artifact attestations for the archive and metadata.
-5. Checks that `main` still points to the validated commit and release immutability
-   is enabled. A concurrent main update causes publication to stop.
+5. Checks that `main` still points to the validated commit. A concurrent main update
+   causes publication to stop. The dry run exercises this preflight as well.
 6. Creates an annotated tag, creates a draft with all assets, and immediately
-   publishes it as the latest immutable release. No second approval click is needed.
+   publishes it as the latest release and checks the resulting immutability before
+   proceeding. No second approval click is needed. Release immutability must remain
+   enabled in repository settings; the workflow token cannot read or change that
+   admin setting, but a nonimmutable published result is rejected for deployment.
 7. Calls the Pages workflow to publish production and preview.
 
 Release versions live in Git tags and attested `release.json` / deployed
