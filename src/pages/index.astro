@@ -1,0 +1,149 @@
+---
+import SiteHeader from '@/components/SiteHeader.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Ajolis — A new beginning"
+  description="Welcome to Ajolis. A space for new ideas, taking shape one step at a time."
+>
+  <SiteHeader />
+  <main id="main-content" class="wrapper">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">A new beginning</p>
+      <h1 id="hero-title">
+        Space for
+        <br />
+        something <em>new.</em>
+      </h1>
+      <p class="intro">Every idea starts somewhere. This one starts here.</p>
+      <a class="button" href="#about">
+        Meet Ajolis <span aria-hidden="true">↗</span>
+      </a>
+      <div class="orbit" aria-hidden="true">
+        <span></span>
+      </div>
+    </section>
+    <section id="about" class="about" aria-labelledby="about-title">
+      <p class="eyebrow">01 / About</p>
+      <div>
+        <h2 id="about-title">
+          Small beginnings.
+          <br />
+          Room to grow.
+        </h2>
+        <p>
+          Ajolis is taking shape. This is the first page of what comes next.
+        </p>
+      </div>
+    </section>
+  </main>
+  <footer class="wrapper site-footer">
+    <span>Ajolis</span>
+    <a href="#top">
+      Back to top <span aria-hidden="true">↑</span>
+    </a>
+  </footer>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(4rem, 10vw, 8rem);
+  }
+
+  h1 {
+    position: relative;
+    z-index: 1;
+    max-width: 13ch;
+    margin-block: 1.5rem;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 550;
+    line-height: 1.04;
+    letter-spacing: -0.065em;
+  }
+
+  h1 em {
+    color: var(--accent);
+    font-family: Georgia, serif;
+    font-weight: 400;
+  }
+
+  .intro {
+    max-width: 32ch;
+    margin-bottom: 2rem;
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+
+  .orbit {
+    position: absolute;
+    top: 24%;
+    right: 2%;
+    display: grid;
+    width: 17rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+  }
+
+  .orbit::before {
+    position: absolute;
+    width: 72%;
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    content: '';
+  }
+
+  .orbit span {
+    width: 45%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    padding-block: 3.5rem 5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  h2 {
+    margin-top: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 550;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+  }
+
+  .about div p {
+    max-width: 38ch;
+    color: var(--muted);
+  }
+
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 56rem) {
+    .orbit {
+      display: none;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .about {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
